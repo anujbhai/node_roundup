@@ -33,19 +33,74 @@ describe("complete()", function() {
 })
 
 describe("saveToFile()", function() {
-  it("should have a single TODO", function(done) {
-    let todos = new Todos()
+  // HOOKS | TEST FIXTURES
+  beforeEach(function() {
+    this.todos = new Todos()
+    this.todos.add("save a CSV")
+  })
 
-    todos.add("save a CSV")
-    todos.saveToFile((err) => {
-      assert.strictEqual(fs.existsSync("todos.csv"), true)
+  afterEach(function() {
+    if (fs.existsSync("todos.csv")) {
+      fs.unlinkSync("todos.csv")
+    }
+  })
 
-      let expectedFileContents = "Title, Completed\nsave a CSV, false\n"
-      let content = fs.readFileSync("todos.csv").toString()
+  // - CALLBACK TEST Eg.
+  // it("should have a single TODO", function(done) {
 
-      assert.strictEqual(content, expectedFileContents)
-      done(err)
-    })
+  // - PROMISE TEST Eg.
+  // it("should have a single TODO", function() {
+
+  // - ASYNC/AWAIT Eg.
+  it("should have a single TODO without error", async function() {
+    // - CALLBACK TEST Eg.
+    // let todos = new Todos()
+    //
+    // todos.add("save a CSV")
+    // todos.saveToFile((err) => {
+      // assert.strictEqual(fs.existsSync("todos.csv"), true)
+      //
+      // let expectedFileContents = "Title, Completed\nsave a CSV, false\n"
+      // let content = fs.readFileSync("todos.csv").toString()
+      //
+      // assert.strictEqual(content, expectedFileContents)
+      // done(err)
+    // })
+
+    // - PROMISE TEST Eg.
+    // let todos = new Todos()
+    //
+    // todos.add("save a CSV")
+    // return todos.saveToFile().then(() => {
+      // assert.strictEqual(fs.existsSync("todos.csv"), true)
+      //
+      // let expectedFileContents = "Title, Completed\nsave a CSV, false\n"
+      // let content = fs.readFileSync("todos.csv").toString()
+      //
+      // assert.strictEqual(content, expectedFileContents)
+    // })
+    
+    // - ASYNC/AWAIT Eg.
+    await this.todos.saveToFile()
+
+    assert.strictEqual(fs.existsSync("todos.csv"), true)
+
+    let expectedFileContents = "Title, Completed\nsave a CSV, false\n"
+    let content = fs.readFileSync("todos.csv").toString()
+
+    assert.strictEqual(content, expectedFileContents)
+  })
+
+  it("should have a single TODO that\'s completed", async function() {
+    this.todos.complete("save a CSV")
+    await this.todos.saveToFile()
+
+    assert.strictEqual(fs.existsSync("todos.csv"), true)
+
+    let expectedFileContents = "Title, Completed\nsave a CSV, true\n"
+    let content = fs.readFileSync("todos.csv").toString()
+
+    assert.strictEqual(content, expectedFileContents)
   })
 })
 
