@@ -38,16 +38,17 @@ class Todos {
     }
   }
 
-  saveToFile(callback) {
+  // saveToFile(callback) { // 1. CALLBACK Eg.
+  saveToFile() {
     let fileContents = "Title, Completed\n"
     this.todos.forEach((todo) => {
       fileContents += `${todo.title}, ${todo.completed}\n`
     })
 
-    // CALLBACK Eg.
+    // 1. CALLBACK Eg.
     // fs.writeFile("todos.csv", fileContents, callback)
 
-    // PROMISE Eg.
+    // 2. PROMISE Eg.
     return fs.writeFile("todos.csv", fileContents)
   }
 }
