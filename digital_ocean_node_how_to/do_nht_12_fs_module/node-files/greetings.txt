@@ -1,0 +1,2 @@
+echo "hello, hola, bonjour, hallo" > greetings.txt
+
