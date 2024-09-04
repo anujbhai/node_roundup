@@ -28,7 +28,12 @@ class KeyValue<T, U> {
   }
 }
 
-let kv = new KeyValue<number, string>()
+let kv = new KeyValue<string, number>()
 kv.key = 1; kv.value = "value"
 
+let kv2 = new KeyValue<string, number>()
+kv2.key = 1; kv2.value = "value"
+
+let kv3 = new KeyValue<string, number>()
+kv3.key = 1; kv3.value = "value"
 
