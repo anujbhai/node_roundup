@@ -37,3 +37,10 @@ kv2.key = 1; kv2.value = "value"
 let kv3 = new KeyValue<string, number>()
 kv3.key = 1; kv3.value = "value"
 
+// extending class
+class PersonTree<T extends Person> {
+  value: T
+  left: Tree<T>
+  right: Tree<T>
+}
+
