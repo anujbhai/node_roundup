@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./build",
+    "lib": ["es2021", "esnext"],
+    "target": "es2021",
+    "module": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSourceMap": true,
+    "inlineSources": true
+  }
+}
+
