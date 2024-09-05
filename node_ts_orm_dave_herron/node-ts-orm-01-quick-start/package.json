@@ -1,0 +1,11 @@
+{
+  "name": "ts-orm-01-quick-start",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anuj Upadhyay (following through the steps of David Herron)",
+  "license": "ISC"
+}

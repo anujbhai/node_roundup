@@ -1,0 +1,16 @@
+{
+  "name": "project-1",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "author": "Anuj Upadhyay (following in the footsteps of David Herror)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./build/encode.js",
+  "types": "./build/encode.d.ts",
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "@types/uuencode": "^0.0.3",
+    "typescript": "^5.5.4",
+    "uuencode": "^0.0.4"
+  }
+}
