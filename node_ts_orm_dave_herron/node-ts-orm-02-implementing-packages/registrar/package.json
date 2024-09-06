@@ -1,0 +1,23 @@
+{
+  "name": "registrar",
+  "version": "1.0.0",
+  "main": "dist/index.ts",
+  "types": "./dist/index.d.ts",
+  "type": "commonjs",
+  "author": "Anuj Upadhyay (following into the steps of David Herron)",
+  "license": "MIT",
+  "scripts": {
+    "build": "npx tsc",
+    "watch": "npx tsc --watch",
+    "test": "cd test && yarn test"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "typescript": "^5.5.4"
+  }
+}

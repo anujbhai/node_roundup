@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2023", "ESNext"],
+    "target": "ES2023",
+    "module": "commonjs",
+    "moduleresolution": "Node",
+    "outDir": "./dist",
+    "rootDir": "./lib",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSourcesMap": true,
+    "inlineSources": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  }
+}
+
