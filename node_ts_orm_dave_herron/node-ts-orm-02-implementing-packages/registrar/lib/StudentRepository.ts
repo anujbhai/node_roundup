@@ -102,6 +102,22 @@ export class StudentRepository extends Repository<Student> {
   }
 
   // Updating student entity
+  async updateStudent(id: number, student: Student): Promise<number> {
+    if (typeof student.entered !== 'undefined') {
+      student.entered = normalize_number(student.entered, "Bad year entered.")
+    }
+    if (typeof student.grade !== "undefined") {
+      student.grade = normalize_number(student.grade, "Bad grade.")
+    }
+    if (!StudentRepository.is_student_updater(student)) {
+      throw new Error(`Student update id ${util.inspect(id)} did not receive a Student updater ${util.inspect(student)}`)
+    }
+
+    await this.manager.update(Student, id, student)
+
+    return id
+  }
+
   // Deleting student entity
 }
 
