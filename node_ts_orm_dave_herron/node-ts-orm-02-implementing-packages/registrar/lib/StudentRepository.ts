@@ -102,7 +102,7 @@ export class StudentRepository extends Repository<Student> {
   }
 
   // Updating student entity
-  async updateStudent(id: number, student: Student): Promise<number> {
+  async update_student(id: number, student: Student): Promise<number> {
     if (typeof student.entered !== 'undefined') {
       student.entered = normalize_number(student.entered, "Bad year entered.")
     }
@@ -119,5 +119,12 @@ export class StudentRepository extends Repository<Student> {
   }
 
   // Deleting student entity
+  async delete_student(student: number | Student) {
+    if (typeof student !== "number" && !StudentRepository.isStudent(student)) {
+      throw new Error("Supplied student object is not a Student")
+    }
+
+    await this.manager.delete(Student, typeof student === "number" ? student : student.id)
+  }
 }
 
