@@ -2,7 +2,10 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
+import { OfferedClass } from "./OfferedClasses";
 
 @Entity()
 export class Student {
@@ -13,5 +16,8 @@ export class Student {
   @Column("int") entered: number
   @Column("int") grade: number
   @Column() gender: string
+  @ManyToMany(() => OfferedClass, oclass => oclass.students)
+  @JoinTable()
+  classes: OfferedClass[]
 }
 

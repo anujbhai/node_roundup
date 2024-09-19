@@ -120,7 +120,7 @@ export class StudentRepository extends Repository<Student> {
 
   // Deleting student entity
   async delete_student(student: number | Student) {
-    if (typeof student !== "number" && !StudentRepository.isStudent(student)) {
+    if (typeof student !== "number" && !StudentRepository.is_student(student)) {
       throw new Error("Supplied student object is not a Student")
     }
 
