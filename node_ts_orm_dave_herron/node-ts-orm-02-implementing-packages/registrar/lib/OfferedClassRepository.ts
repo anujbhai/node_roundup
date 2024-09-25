@@ -18,6 +18,7 @@ export class OfferedClassRepository extends Repository<OfferedClass> {
 
     return classes
   }
+
   async update_classes(classFN: string) {
     const yaml_text = await fs.readFile(classFN, "utf8")
     const offered = (yaml.load(yaml_text, {
@@ -43,7 +44,28 @@ export class OfferedClassRepository extends Repository<OfferedClass> {
       if (!still_offered) {
         this.delete_offered_class(cls.code)
       }
+
+      for (let updater of offered.classes) {
+        if (!OfferedClassRepository.is_offered_class(updater)) {
+          throw new Error(``)
+        }
+      }
     }
+  }
+
+  static is_offered_class(offered_class: any): offered_class is OfferedClass {
+    return typeof offered_class === "object"
+      && typeof offered_class.code === "string"
+      && typeof offered_class.name === "string"
+      && typeof offered_class.hours === "number"
+  }
+
+  async delete_offered_class(offered_class: string | OfferedClass) {
+    if (typeof offered_class !== "string" && !OfferedClassRepository.is_offered_class(offered_class)) {
+      throw new Error("Supplied offerClass object not a OfferedClassed")
+    }
+
+    await this.manager.delete(OfferedClass, typeof offered_class === "string" ? offered_class : offered_class.code)
   }
 }
 
