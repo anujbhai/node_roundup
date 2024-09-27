@@ -4,6 +4,7 @@ import * as yaml from "js-yaml"
 import { promises as fs } from "fs"
 
 import { OfferedClass } from "./entities/OfferedClasses";
+import { normalize_number } from "./StudentRepository";
 
 class OfferedClassYAML {
   classes: Array<OfferedClass>
@@ -17,6 +18,41 @@ export class OfferedClassRepository extends Repository<OfferedClass> {
     })
 
     return classes
+  }
+
+  async find_one_class(code: string): Promise<OfferedClass> {
+    let cls = await this.findOne({
+      where: {code: code},
+      relations: ["students"]
+    })
+
+    if (!OfferedClassRepository.is_offered_class(cls)) {
+      throw new Error(`OfferedClass id ${util.inspect(code)} did not retrieve an OfferedClass`)
+    }
+
+    return cls
+  }
+
+  async create_and_save(offered_class: OfferedClass): Promise<any> {
+    let cls = new OfferedClass()
+
+    //@TODO: finish this
+
+    return cls.code
+  }
+
+  async update_offered_class(code: string, offered_class: OfferedClass): Promise<any> {
+    if (typeof offered_class.hours !== 'undefined') {
+      offered_class.hours = normalize_number(offered_class.hours, 'Bad number of hours')
+    }
+
+    if (!OfferedClassRepository.is_offered_class_updater(offered_class)) {
+      throw new Error(`offered_class update id ${util.inspect(code)} did not recieve an offered_class updater ${util.inspect(offered_class)}`)
+    }
+
+    await this.manager.update(OfferedClass, code, offered_class)
+
+    return code
   }
 
   async update_classes(classFN: string) {
@@ -47,7 +83,21 @@ export class OfferedClassRepository extends Repository<OfferedClass> {
 
       for (let updater of offered.classes) {
         if (!OfferedClassRepository.is_offered_class(updater)) {
-          throw new Error(``)
+          throw new Error(`update_classes found classes entry that is not an offered_class_updater ${util.inspect(updater)}`)
+        }
+
+        let cls
+
+        try {
+          cls = await this.find_one_class(updater.code)
+        } catch (err) {
+          cls = undefined
+        }
+
+        if (cls) {
+          await this.update_offered_class(updater.code, updater)
+        } else {
+          await this.create_and_save(updater)
         }
       }
     }
@@ -58,6 +108,11 @@ export class OfferedClassRepository extends Repository<OfferedClass> {
       && typeof offered_class.code === "string"
       && typeof offered_class.name === "string"
       && typeof offered_class.hours === "number"
+  }
+
+  static is_offered_class_updater(updater: any): boolean {
+    // @TODO: finish this
+    return true
   }
 
   async delete_offered_class(offered_class: string | OfferedClass) {
