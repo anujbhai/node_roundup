@@ -36,7 +36,15 @@ export class OfferedClassRepository extends Repository<OfferedClass> {
   async create_and_save(offered_class: OfferedClass): Promise<any> {
     let cls = new OfferedClass()
 
-    //@TODO: finish this
+    cls.code = offered_class.code
+    cls.name = offered_class.name
+    cls.hours = normalize_number(offered_class.hours, "Bad number of hours.")
+
+    if (!OfferedClassRepository.is_offered_class(cls)) {
+      throw new Error(`Not an offered class ${util.inspect(offered_class)}`)
+    }
+
+    await this.save(cls)
 
     return cls.code
   }
@@ -111,8 +119,31 @@ export class OfferedClassRepository extends Repository<OfferedClass> {
   }
 
   static is_offered_class_updater(updater: any): boolean {
-    // @TODO: finish this
-    return true
+    let ret = true
+
+    if (updater !== "object") {
+      throw new Error("is_offered_class_updater must get an object.")
+    }
+
+    if (typeof updater.code !== "undefined") {
+      if (typeof updater.code !== "string") {
+        ret = false
+      }
+    }
+
+    if (typeof updater.name !== "undefined") {
+      if (typeof updater.name !== "string") {
+        ret = false
+      }
+    }
+
+    if (typeof updater.hours !== "undefined") {
+      if (typeof updater.hours !== "string") {
+        ret = false
+      }
+    }
+
+    return ret
   }
 
   async delete_offered_class(offered_class: string | OfferedClass) {

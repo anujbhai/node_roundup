@@ -84,14 +84,17 @@ export class StudentRepository extends Repository<Student> {
   
   // Reading student entity
   async all_students(): Promise<Student []> {
-    let students = await this.find()
+    let students = await this.find({
+      relations: ["classes"]
+    })
 
     return students
   }
 
   async find_one_student(id: number): Promise<Student> {
     let student = await this.findOne({
-      where: {id: id}
+      where: {id: id},
+      relations: ["classes"],
     })
 
     if (!StudentRepository.is_student(student)) {
