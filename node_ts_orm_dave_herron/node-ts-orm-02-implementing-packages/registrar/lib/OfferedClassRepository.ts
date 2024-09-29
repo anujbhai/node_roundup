@@ -153,5 +153,7 @@ export class OfferedClassRepository extends Repository<OfferedClass> {
 
     await this.manager.delete(OfferedClass, typeof offered_class === "string" ? offered_class : offered_class.code)
   }
+
+  async enrolled_student_in_class(student_id: any, code: string) {}
 }
 
