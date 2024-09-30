@@ -4,7 +4,8 @@ import * as yaml from "js-yaml"
 import { promises as fs } from "fs"
 
 import { OfferedClass } from "./entities/OfferedClasses";
-import { normalize_number } from "./StudentRepository";
+import { normalize_number, StudentRepository } from "./StudentRepository";
+import { get_student_repo } from ".";
 
 class OfferedClassYAML {
   classes: Array<OfferedClass>
@@ -154,6 +155,28 @@ export class OfferedClassRepository extends Repository<OfferedClass> {
     await this.manager.delete(OfferedClass, typeof offered_class === "string" ? offered_class : offered_class.code)
   }
 
-  async enrolled_student_in_class(student_id: any, code: string) {}
+  async enroll_student_in_class(student_id: any, code: string) {
+    let offered = await this.find_one_class(code)
+
+    if (!OfferedClassRepository.is_offered_class(offered)) {
+      throw new Error(`enroll_student_in_class did not find OfferedClass for ${util.inspect(code)}`)
+    }
+
+    let student = await get_student_repo().find_one_student(student_id)
+
+    if (!StudentRepository.is_student(student)) {
+      throw new Error(`enroll_student_in_class did not find student for ${util.inspect(student_id)}`)
+    }
+
+    if (!student.classes) student.classes = []
+
+    student.classes.push(offered)
+
+    await get_student_repo().manager.save(student)
+  }
+
+  async update_student_enrolled_classes (student_id: any, codes: string[]) {
+
+  }
 }
 
