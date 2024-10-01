@@ -176,7 +176,37 @@ export class OfferedClassRepository extends Repository<OfferedClass> {
   }
 
   async update_student_enrolled_classes (student_id: any, codes: string[]) {
+    let student = await get_student_repo().find_one_student(student_id)
 
+    if (!StudentRepository.is_student(student)) {
+      throw new Error(`enroll_student_in_class did not find Student for ${util.inspect(student_id)}`)
+    }
+
+    let new_class = []
+
+    for (let x_class of student.classes) {
+      for (let code of codes) {
+        if (x_class.code === code) {
+          new_class.push(x_class)
+        }
+      }
+    }
+
+    for (let code of codes) {
+      let found = false
+
+      for (let n_class of new_class) {
+        if (n_class.code === code) {
+          found = true
+        }
+      }
+      if (!found) {
+        new_class.push(await this.find_one_class(code))
+      }
+    }
+
+    student.classes = new_class
+    await get_student_repo().save(student)
   }
 }
 
