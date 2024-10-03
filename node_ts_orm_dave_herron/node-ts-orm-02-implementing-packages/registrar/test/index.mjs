@@ -7,6 +7,7 @@ import {
   connected,
   Student,
 } from "../dist/index.js"
+import { it } from "node:test"
 
 describe("Initialize Registrar", function () {
   before(async function () {
@@ -17,4 +18,8 @@ describe("Initialize Registrar", function () {
       throw e
     }
   })
+})
+
+it("should should successfully initialize the registrar", async function () {
+  assert.isTrue(connected())
 })
