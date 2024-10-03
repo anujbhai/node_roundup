@@ -4,7 +4,7 @@
   "description": "Test suite for student registry library",
   "main": "index.js",
   "scripts": {
-    "setup": "cd .. && npm run build",
+    "setup": "cd .. && yarn build",
     "test": "rm -f registrardb.sqlite && mocha ./index.mjs"
   },
   "license": "MIT",
