@@ -10,6 +10,7 @@ import {
 import { it } from "node:test"
 
 describe("Initialize Registrar", function () {
+  // test not working
   before(async function () {
     try {
       await connect("registrardb.sqlite")
