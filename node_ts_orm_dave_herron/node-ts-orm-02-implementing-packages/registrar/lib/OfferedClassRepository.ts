@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import * as util from "util"
 import * as yaml from "js-yaml"
 import { promises as fs } from "fs"
@@ -11,7 +11,6 @@ class OfferedClassYAML {
   classes: Array<OfferedClass>
 }
 
-@EntityRepository(OfferedClass)
 export class OfferedClassRepository extends Repository<OfferedClass> {
   async all_classes(): Promise<OfferedClass []> {
     let classes = await this.find({

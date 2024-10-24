@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from "typeorm"
+import { Repository } from "typeorm"
 import * as util from "util"
 import { Student } from "./entities/Student"
 
@@ -27,7 +27,6 @@ export function normalize_number(num: number | string, error_if_not_number: stri
   return ret!
 }
 
-@EntityRepository(Student)
 export class StudentRepository extends Repository<Student> {
   static is_student(student: any): student is Student {
     return typeof student === "object"
